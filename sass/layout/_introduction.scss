@@ -7,15 +7,15 @@
     justify-self: center;
     align-self: center;
     margin: 4rem 0;
-    padding: 1rem 4rem;
+    padding: 1rem 0;
     display: flex;
     align-items: center;
-    justify-content: space-between;
+    justify-content: space-evenly;
     border-radius: 5px;
     box-shadow: 1px 1px 2px 2px rgba(0, 0, 0, 0.1);
 
     @media only screen and (max-width:$bp-large){
-        width: 500px;
+        width: 600px;
         height: 333px;    
        }
     @media only screen and (max-width:$bp-small){
@@ -27,18 +27,40 @@
         
        }
 
+       @media only screen and (max-width: $bp-smallest){
+        width: 360px;
+    }
+
        & a{
            display: inline;
            text-decoration: none;
            color: $color-blue;
            cursor: pointer;
        }
+
+       .dot {
+           background-color: red;
+           position: absolute;
+           width: 23px;
+           height: 23px;
+           border-radius: 50%;
+           top: 3px;
+           left: 76px;
+           opacity: 0;
+       }
+
+       .dotter {
+            animation: mazerunner 4s infinite;
+       }
+
+    
     
     &__img {
+        position: relative;
         // width: 17vw;
-        width: 170px;
+        width: 200px;
         // height: 17vw;
-        height: 260px;
+        height: 200px;
         background-color: $color-green;
         padding: 20px;
         align-self: center;
@@ -91,6 +113,55 @@
 
     }
 }
+
+@keyframes mazerunner {
+    0% {
+        top: 3px;
+        left: 72px;
+        opacity: 0;
+    }
+    10% {
+        top: 37px;
+        left: 72px;
+        opacity: 1;
+    }
+    20% {
+        top: 37px;
+        left: 38px;
+    }
+    30% {
+        top: 73px;
+        left: 38px;
+    }
+    40% {
+        top: 73px;
+        left: 110px;
+    }
+    50% {
+        top: 35px;
+        left: 110px;
+    }
+    60% {
+        top: 34px;
+        left: 145px;
+    }
+    80% {
+        top: 148px;
+        left: 145px;
+    }
+    90% {
+        top: 148px;
+        left: 105px;
+        opacity: 1;
+    }
+    100% {
+        top: 180px;
+        left: 105px;
+        opacity: 0;
+    }
+}
+
+
 
 .links {
     margin-top: 3rem;

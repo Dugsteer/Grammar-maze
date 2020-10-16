@@ -5,38 +5,57 @@ const extra = document.getElementById("info");
 const mainpic = document.getElementById("mainpic");
 const blue = window.matchMedia("(max-width: 800px)");
 
+
 //switch introduction pic
-function switchpic() {
-  switch (mainpic.innerHTML) {
-    case '<img src="img/fashion/fashion1.png" alt="decorative">':
-      mainpic.innerHTML =
-        '<img src="img/fashion/fashion2.png" alt="decorative">';
-      break;
-    case '<img src="img/fashion/fashion2.png" alt="decorative">':
-      mainpic.innerHTML =
-        '<img src="img/fashion/fashion3.png" alt="decorative">';
-      break;
-    case '<img src="img/fashion/fashion3.png" alt="decorative">':
-      mainpic.innerHTML =
-        '<img src="img/fashion/fashion4.png" alt="decorative">';
-      break;
-    case '<img src="img/fashion/fashion4.png" alt="decorative">':
-      mainpic.innerHTML =
-        '<img src="img/fashion/fashion5.png" alt="decorative">';
-      break;
-    default:
-      mainpic.innerHTML =
-        '<img src="img/fashion/fashion1.png" alt="decorative">';
-  }
-}
-setInterval(switchpic, 2000);
+const dot = document.getElementById("dot");
+const gaming = new Audio("sounds/gaming.ogg");
+var isPlaying = false;
 
-//Play applause
 
-function clapping() {
-  const claps = new Audio("sounds/applause.wav");
-  claps.play();
+function addDot(){
+  dot.classList.toggle('dotter');
+  isPlaying ? gaming.pause() : gaming.play();
 }
+
+gaming.onplaying = function() {
+  isPlaying = true;
+};
+gaming.onpause = function() {
+  isPlaying = false;
+};
+
+gaming.addEventListener('ended', function() {
+  gaming.currentTime = 0;
+  gaming.play();
+}, false);
+
+// function switchpic() {
+//   switch (mainpic.innerHTML) {
+//     case '<img src="img/fashion/fashion1.png" alt="decorative">':
+//       mainpic.innerHTML =
+//         '<img src="img/fashion/fashion2.png" alt="decorative">';
+//       break;
+//     case '<img src="img/fashion/fashion2.png" alt="decorative">':
+//       mainpic.innerHTML =
+//         '<img src="img/fashion/fashion3.png" alt="decorative">';
+//       break;
+//     case '<img src="img/fashion/fashion3.png" alt="decorative">':
+//       mainpic.innerHTML =
+//         '<img src="img/fashion/fashion4.png" alt="decorative">';
+//       break;
+//     case '<img src="img/fashion/fashion4.png" alt="decorative">':
+//       mainpic.innerHTML =
+//         '<img src="img/fashion/fashion5.png" alt="decorative">';
+//       break;
+//     default:
+//       mainpic.innerHTML =
+//         '<img src="img/fashion/fashion1.png" alt="decorative">';
+//   }
+// }
+// setInterval(switchpic, 2000);
+
+
+
 
 // Show and hide about info
 function show() {
@@ -73,81 +92,253 @@ function toggler() {
 }
 myFunction(blue);
 
-//FLIP CARDS
+//Main Action
 
-const inner = document.getElementById("inner");
+const image = document.getElementById("image");
+const topText = document.getElementById("topText");
+const leftText = document.getElementById("left-text");
+const rightText = document.getElementById("right-text");
+const wronganswer = document.getElementById("wronganswer");
+const good = document.getElementById("good");
+// const firstPage = document.getElementById("first-page");
+const logOut = document.getElementById("logout");
+const imgContainer = document.getElementById('img-container');
+const after = document.getElementById('after');
 
-function flipMe() {
-  inner.classList.toggle("turnMe");
-}
 
-//CHANGE CARDS
-const count = document.getElementById("count");
-let imageArt = document.getElementById("image-art");
-let imageText = document.getElementById("image-text");
+// Counter for index of arrays
+let place = 0;
+let c;
+let d;
 
-var imageList = [
-  "belt.jpg",
-  "boots.jpg",
-  "cap.jpg",
-  "dress.jpg",
-  "flip-flops.jpg",
-  "gloves.jpg",
-  "hat.jpg",
-  "hoodie.jpg",
-  "jacket.jpg",
-  "jeans.jpg",
-  "jumper.jpg",
-  "pyjamas.jpg",
-  "raincoat.jpg",
-  "sandals.jpg",
-  "scarf.jpg",
-  "shirt.jpg",
-  "shoes.jpg",
-  "skirt.jpg",
-  "socks.jpg",
-  "trainers.jpg",
-  "trousers.jpg",
-  "tshirt.jpg",
-  "umbrella.jpg",
+// Arrays for top text and text on left and right
+const topTextArray = [
+  "Her name is Penelope.",
+  "She likes diving.",
+  "She goes to Egypt.",
+  "She lives in Barcelona.",
+  "She can speak five languages.",
+  "She's twenty years old.",
+  "Her hobby is reading.",
+  "She has a puppy called Pugsy.",
+  "She loves her red car.",
+  "She's good at chess.",
+  "She's a doctor.",
+  "She goes mountain biking.",
+  "He goes mountain biking."
 ];
 
-let y = imageText.innerHTML;
-let z = y.concat(".jpg");
-let x = imageList.indexOf(z);
+const leftTextArray = [
+  "How her name is?",
+  false,
+  "What likes she?",
+  false,
+  "Where she go on holiday?",
+  false,
+  "Where does she live?",
+  true,
+  "What languages can she speak?",
+  true,
+  "How old is she?",
+  true,
+  "What is her hobby?",
+  true,
+  "Have she got a pet?",
+  false,
+  "Does she like her red car?",
+  true,
+  "She is good at table games?",
+  false,
+  "What do is she?",
+  false,
+  "What does she does at the weekend?",
+  false,
+  "",
+];
 
-function goForwards() {
-  if (x < imageList.length - 1) {
-    x++;
-    imageArt.src = `/img/${imageList[x]}`;
-    imageText.textContent = `${imageList[x].slice(0, -4)}`;
-    count.innerHTML = `${x + 1}/${imageList.length}`;
-    return x;
+const rightTextArray = [
+  "What is her name?",
+  true,
+  "What does she like?",
+  true,
+  "Where does she go on holiday?",
+  true,
+  "Where lives she?",
+  false,
+  "What languages know to speak?",
+  false,
+  "What old is she?",
+  false,
+  "What hobby she is?",
+  false,
+  "Has she got a pet?",
+  true,
+  "She likes her red car?",
+  false,
+  "Is she good at table games?",
+  true,
+  "What does she do?",
+  true,
+  "What does she do at the weekend?",
+  true,
+  "You DID IT!",
+];
+
+// Remove the landing page and/or return user to the start
+
+
+function restarter(){
+  window.location.reload();
+}
+
+function begin() {
+  place = -2;
+  nextOne();
+  after.classList.remove('blue');
+  topText.style.visibility = "hidden";
+  logOut.style.visibility = "hidden";
+//   firstPage.style.display = "none";
+//   game.style.display = "flex";
+  wronganswer.style.display = "none";
+
+}
+
+
+
+// Move on to the next 'slide'.
+
+function nextOne() {
+  place = place + 2;
+  console.log(place);
+  d = place;
+  if (place > leftTextArray.length - 2){
+    leftText.innerHTML = "";
+    rightText.innerHTML = "";
+    good.style.display = "flex";
+    wronganswer.style.display = "none";
+    after.classList.remove('blue');
+    setTimeout(restarter, 3000);
+
   } else {
-    imageArt.src = ` /img/${imageList[imageList.length - 1]}`;
-    imageText.textContent = `${imageList[imageList.length - 1].slice(0, -4)}`;
-    count.innerHTML = `${imageList.length}/${imageList.length}`;
-    x = 0;
-    x = imageList.length - 1;
-    return x;
+    
+    
+  topText.innerText = topTextArray[d / 2];
+  
+ 
+   {
+    leftText.innerText = leftTextArray[place];
+    rightText.innerText = rightTextArray[place];
+    image.src = `img/maze-peppa/slide${d / 2}.jpg`;
+  }
+}
+}
+
+// Check to see if the correct answer has been chosen
+
+
+function checkForMistakesOnLeft(clickedElement) {
+  // Check to see if game is on last page
+  if (topText.innerText === "He can swim") {
+    leftText.innerHTML = "";
+    rightText.innerHTML = "";
+    good.style.display = "flex";
+    wronganswer.style.display = "flex";
+        setTimeout(restarter, 3000);
+  } else {
+   
+    // Get innerText of clicked element and see if next item in its array is T or F
+    let a = clickedElement.innerText;
+    let b = leftTextArray.indexOf(a);
+    c = leftTextArray[b + 1];
+ 
+
+    // Restart game if answer is F
+    if (c === false) {
+      wronganswer.style.display = "flex";
+    } else {
+      //Move on to next slide if answer is T
+      after.classList.add('blue');
+      topText.style.visibility = "visible";
+      logOut.style.visibility = "visible";
+      // game.style.display = "flex";
+      wronganswer.style.display = "none";
+            nextOne();
+    }
   }
 }
 
-function goBackwards() {
-  if (x > 0) {
-    x--;
-    imageArt.src = `/img/${imageList[x]}`;
-    imageText.textContent = `${imageList[x].slice(0, -4)}`;
-    count.innerHTML = `${x + 1}/${imageList.length}`;
-    return x;
+// Comments same as above
+// function checkForMistakesOnRight(clickedElement) {
+//   if (topText.innerText === "He can swim") {
+//     leftText.innerHTML = "";
+//     rightText.innerHTML = "";
+//     good.style.display = "flex";
+//     wronganswer.hidden = true;
+//   } else {
+//     let a = clickedElement.innerText;
+//     let b = rightTextArray.indexOf(a);
+//     c = rightTextArray[b + 1];
+
+//     if (c === false) {
+//       wronganswer.hidden = false;
+//     } else {
+//       after.classList.add('blue');
+//       topText.style.visibility = "visible";
+//       logOut.style.visibility = "visible";
+//     }
+//   }
+// }
+function checkForMistakesOnRight(clickedElement) {
+  if (topText.innerText === "He can swim") {
+    leftText.innerHTML = "";
+    rightText.innerHTML = "";
+    good.style.display = "flex";
+    wronganswer.style.display = "none";
+        setTimeout(restarter, 3000);
   } else {
-    imageArt.src = ` /img/${imageList[0]}`;
-    imageText.textContent = `${imageList[0].slice(0, -4)}`;
-    count.innerHTML = `${1}/${imageList.length}`;
-    x = 0;
-    return x;
+    let a = clickedElement.innerText;
+    let b = rightTextArray.indexOf(a);
+    c = rightTextArray[b + 1];
+
+    if (c === false) {
+      wronganswer.hidden = false;
+    } else {
+      after.classList.add('blue');
+      topText.style.visibility = "visible";
+      logOut.style.visibility = "visible";
+    }
+  }
+}
+function checkForMistakesOnLeft(clickedElement) {
+  if (topText.innerText === "He can swim") {
+    leftText.innerHTML = "";
+    rightText.innerHTML = "";
+    good.style.display = "flex";
+    wronganswer.style.display = "none";
+        setTimeout(restarter, 2000);
+  } else {
+    let a = clickedElement.innerText;
+    let b = leftTextArray.indexOf(a);
+    c = leftTextArray[b + 1];
+
+    if (c === false) {
+      wronganswer.style.display = "flex";
+        } else {
+      after.classList.add('blue');
+      topText.style.visibility = "visible";
+      logOut.style.visibility = "visible";
+    }
   }
 }
 
-goForwards();
-goBackwards();
+function carryOn() {
+  after.classList.remove('blue');
+  topText.style.visibility = "hidden";
+  logOut.style.visibility = "hidden";
+  nextOne();
+}
+
+logOut.addEventListener("click", carryOn);
+mainpic.addEventListener('click', addDot);
+
+begin();
