@@ -8,7 +8,7 @@ const blue = window.matchMedia("(max-width: 800px)");
 
 //switch introduction pic
 const dot = document.getElementById("dot");
-const gaming = new Audio("sounds/gaming.ogg");
+const gaming = new Audio("sounds/gaming.aac");
 var isPlaying = false;
 
 
