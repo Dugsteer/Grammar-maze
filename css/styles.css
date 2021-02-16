@@ -193,21 +193,21 @@ h4 {
     margin: 0 5%; } }
 
 .sidebar {
-  grid-row: 1/5;
+  grid-row: 1/7;
   grid-column: 1/2;
   width: 100%;
+  height: 100%;
   display: flex;
   flex-direction: column;
   background-color: #fff;
   padding: 1rem;
-  height: 100%;
   transition: all 0.2s ease-in-out; }
   @media only screen and (max-width: 50em) {
     .sidebar {
       position: absolute;
       width: 100vw;
       z-index: 500;
-      height: auto;
+      height: 100%;
       padding: 3rem; } }
   @media only screen and (max-width: 28em) {
     .sidebar {
@@ -228,7 +228,7 @@ h4 {
   color: #594f73;
   width: 100%;
   height: 3rem;
-  padding-left: .5rem; }
+  padding-left: 0.5rem; }
 
 .sidebard a:hover {
   background-color: lightgrey; }
@@ -242,7 +242,7 @@ h4 {
   border-top: 1px solid #2b6498;
   height: 4rem;
   line-height: 1.6;
-  padding-left: .5rem;
+  padding-left: 0.5rem;
   padding-right: 1rem;
   margin-top: 1rem;
   width: 100%;
@@ -302,7 +302,7 @@ h4 {
   fill: darkgrey; }
 
 .sidebar-container {
-  grid-row: 1/4;
+  grid-row: 1/7;
   grid-column: 1/2;
   height: 100%; }
   @media only screen and (max-width: 50em) {
@@ -311,9 +311,6 @@ h4 {
 
 .block {
   display: block; }
-
-.sidebar__subtitle:first-of-type {
-  background: #F75F1C; }
 
 .icon {
   margin-right: 3rem; }
@@ -343,7 +340,6 @@ h4 {
   @media only screen and (max-width: 37.5em) {
     .extra {
       top: 60%;
-      origin: center;
       width: 320px;
       height: 700px; } }
 
@@ -393,7 +389,7 @@ h4 {
 .icon-base {
   width: 5em;
   height: 5rem;
-  fill: #2B6498; }
+  fill: #2b6498; }
 
 .icon-base:hover {
   fill: darkorange; }
